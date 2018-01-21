@@ -1,0 +1,15 @@
+#!/usr/bin/env groovy
+
+@Grab(group='net.java.dev.jna', module='jna', version='4.5.1')
+
+import com.sun.jna.NativeLibrary
+import com.sun.jna.Platform
+
+class CLib {
+    static def lib = NativeLibrary.getInstance(Platform.isWindows() ? 'msvcrt' : 'c')
+    static def printf(format, args) {
+        lib.getFunction('printf').invokeVoid([format, args])
+    }
+}
+
+CLib.printf("Hello, World!\n")
